@@ -1,0 +1,6 @@
+﻿productID,productName,description,category,supplierID,price,stockQuantity,reorder_level
+Chip1001,SEVEN,Home based alarm,Medical,1001,349,0,50
+Chip1002,GO,Anywhere alarm,Medical,1001,369,0,50
+Chip1003,Wrist Pendant,Wrist RF Device,Medical,1001,69,0,100
+Chip1004,Neck Pendant,Neck RF Device,Medical ,1001,69,0,100
+Care1001,Beacon,Anywhere alarm,Medical,1002,256,0,50
