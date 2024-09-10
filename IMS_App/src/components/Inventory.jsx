@@ -18,6 +18,7 @@ export default function Inventory() {
     const [techs, setTechs] = useState([]);
     const [pos, setPOs] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
+    const [comments, setComments] = useState({});  // New state to hold comments
 
     useEffect(() => {
         dataService.getItems()
@@ -70,7 +71,21 @@ export default function Inventory() {
         setItems(allItems);
     }
 
-    // Display Items
+    // Fetch comments for an item based on its CS (unique identifier)
+    const fetchComments = (cs) => {
+        dataService.getComments(cs)
+            .then(commentsData => {
+                setComments(prevComments => ({
+                    ...prevComments,
+                    [cs]: commentsData  // Store comments keyed by CS
+                }));
+            })
+            .catch(error => {
+                console.log("Error fetching comments:", error);
+            });
+    }
+
+    // Display Items with Comments
     let itemsListJsx = items.map(item => {
         return (
             <>
@@ -82,37 +97,34 @@ export default function Inventory() {
                                 <div>
                                     <Stack direction='horizontal' gap={3} className="justify-content-center">
                                         <div className='p-2'><b>Serial# </b>{item.serial}</div>
-                                        <div className='p-2'><b>Company: </b>{item.company}</div>
-                                        <div className='p-2'><b>Tech: </b>{item.tech}</div>
+                                        <div className='p-2'><b>Location: </b>{item.location}</div>
+                                        <div className='p-2'><b>Status: </b>{item.status}</div>
                                     </Stack>
                                 </div>
 
                                 <div>
                                     <Stack direction='horizontal' gap={3} className="justify-content-center">
-                                        <div className='p-2'><b>Phone# </b>{item.phone}</div>
-                                        <div className='p-2'><b>SIM# </b>{item.sim}</div>
+                                        <div className='p-2'><b>Phone# </b>{item.phoneNumber}</div>
+                                        <div className='p-2'><b>SIM# </b>{item.simNumber}</div>
                                         <div className='p-2'><b>PO# </b>{item.po}</div>
-                                    </Stack>
-                                </div>
-                                <div>
-                                    <Stack direction='horizontal' gap={2} className="justify-content-center">
-                                        <div className='p-2'><b>Config: </b>{item.config}</div>
-                                        <div className='p-2'><b>Firmware: </b>{item.firmware}</div>
-                                        <div className='p-2'><b>Status: </b>{item.status}</div>
                                     </Stack>
                                 </div>
                             </Card.Text>
                         </Card.Body>
                         <Accordion defaultActiveKey="0">
                             <Accordion.Item eventKey="0xs">
-                                <Accordion.Header>Comments</Accordion.Header>
+                                <Accordion.Header onClick={() => fetchComments(item.cs)}>Comments</Accordion.Header>
                                 <Accordion.Body>
-                                    <h6 style={{display: 'flex', justifyContent: 'left'}}>User 1</h6>
-                                    <p style={{display: 'flex', justifyContent: 'left'}}>Tech tried to install unit in mulitple sites, but the unit not able to send signals. Advised return to ADT.</p>
-
-                                    <h6 style={{display: 'flex', justifyContent: 'left'}}>Refurb technician</h6>
-                                    <p style={{display: 'flex', justifyContent: 'left'}}>Medical unit returned.</p>
-                                    
+                                    {comments[item.cs] ? (
+                                        comments[item.cs].map((comment, index) => (
+                                            <div key={index}>
+                                                <h6 style={{ display: 'flex', justifyContent: 'left' }}>{comment.user}</h6>
+                                                <p style={{ display: 'flex', justifyContent: 'left' }}>{comment.text}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No comments yet</p>
+                                    )}
                                     <Stack direction='horizontal' gap={2} className="justify-content-center">
                                         <Form.Control className='p-2' placeholder="Comment" />
                                         <Button className='p-2' variant="primary">Add</Button>
@@ -123,10 +135,7 @@ export default function Inventory() {
                         </Accordion>
                     </Card>
                 </div>
-
             </>
-
-
         )
     });
 

@@ -61,4 +61,10 @@ export default class DataService {
         }
     }
 
+    async getComments(cs) {
+        const response = await fetch(`${this.baseUrl}/comments?cs=${cs}`);
+        return await response.json();
+    }
+    
+
 }

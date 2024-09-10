@@ -1,0 +1,5 @@
+﻿staffID,firstName,lastName,company,address,phone,emailId,role,createdAt
+ADT24001,Bhavik,Yakkarnall,ADT Security,"Henderson Place, Onehunga, Auckland 1061",64210934772,bhavik.yakkarnall@adtsecurity.co.nz,SuperAdmin,10/09/2024
+ADT24002,Darlene,Sanderson,ADT Security,"Henderson Place, Onehunga, Auckland 1061",64272323545,darlene.sanderson@adtsecurity.co.nz,Admin,10/09/2024
+ADT24003,NevaAlone,Staff1,ADT Security,"Henderson Place, Onehunga, Auckland 1061",800111238,nevaalone.staff1@adtsecurity.co.nz,User,10/09/2024
+ADT24004,NevaAlone,Staff2,ADT Security,"Henderson Place, Onehunga, Auckland 1061",800111238,nevaalone.staff2@adtsecurity.co.nz,User,10/09/2024

@@ -1,9 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 let dbConnect = require("./dbConnect");
-// let itemRoute = require('./routes/itemRoute');
-// let supplierRoute = require('./routes/supplierRoute');
 let backorderRoute = require('./routes/backorderRoute');
+let commentRoute = require('./routes/commentRoute')
 let credentialRoute = require('./routes/credentialRoute');
 let dispatchRoute = require('./routes/dispatchRoute');
 let itemRoute = require('./routes/itemRoute');
@@ -24,11 +23,8 @@ app.use(cors());
 
 // app.use('/api', verifyToken, itemRoute)
 
-// app.use('/api', supplierRoute)
-// app.use('/api', itemRoute);
-// app.use('/api', supplierRoute)
-
 app.use('/api', backorderRoute);
+app.use('./api', commentRoute);
 app.use('/api', credentialRoute);
 app.use('/api', dispatchRoute);
 app.use('/api', itemRoute);
