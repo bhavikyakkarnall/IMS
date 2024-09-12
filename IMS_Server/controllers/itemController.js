@@ -39,7 +39,7 @@ exports.updateItem = async (req, res) => {
 };
 
 exports.deleteItem = async (req, res) => {
-    const itemId = req.params.id; // Get the item ID from the request parameters
+    const itemId = req.params.itemID; // Get the item ID from the request parameters
 
     try {
         // Find the item by its ID and remove it from the database
@@ -62,6 +62,24 @@ exports.getItemById = async (req, res) => {
     try {
         // Find the item by its ID
         const foundItem = await item.findById(itemId);
+
+        if (!foundItem) {
+            return res.status(404).json({ error: "Item not found" });
+        }
+
+        res.status(200).json(foundItem);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.getItemBySerial = async (req, res) => {
+    const serialNo = req.params.serial; // Get the item ID from the URL parameter
+
+    try {
+        // Find the item by its ID
+        const foundItem = await item.find({serial: serialNo});
 
         if (!foundItem) {
             return res.status(404).json({ error: "Item not found" });

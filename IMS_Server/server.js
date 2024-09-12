@@ -24,7 +24,7 @@ app.use(cors());
 // app.use('/api', verifyToken, itemRoute)
 
 app.use('/api', backorderRoute);
-app.use('./api', commentRoute);
+app.use('/api', commentRoute);
 app.use('/api', credentialRoute);
 app.use('/api', dispatchRoute);
 app.use('/api', itemRoute);
