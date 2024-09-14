@@ -74,6 +74,24 @@ exports.getItemById = async (req, res) => {
     }
 };
 
+exports.getItemByItemID = async (req, res) => {
+    const itemid = req.params.ItemID; // Get the item ID from the URL parameter
+
+    try {
+        // Find the item by itemID
+        const foundItem = await item.find({ItemID: itemid});
+
+        if (!foundItem) {
+            return res.status(404).json({ error: "Item not found" });
+        }
+
+        res.status(200).json(foundItem);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
 exports.getItemBySerial = async (req, res) => {
     const serialNo = req.params.serial; // Get the item ID from the URL parameter
 

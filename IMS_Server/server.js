@@ -14,7 +14,7 @@ let supplierRoute = require('./routes/supplierRoute');
 let userRoute = require('./routes/userRoute');
 
 const cors = require("cors");
-const supplier = require("./models/supplier");
+// const supplier = require("./models/supplier");
 const app = express();
 
 app.use(express.json());
