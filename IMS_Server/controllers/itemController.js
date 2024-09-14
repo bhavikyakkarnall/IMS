@@ -109,3 +109,21 @@ exports.getItemBySerial = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getItemByCS = async (req, res) => {
+    const csNo = req.params.cs; // Get the item ID from the URL parameter
+
+    try {
+        // Find the item by its ID
+        const foundItem = await item.find({cs: csNo});
+
+        if (!foundItem) {
+            return res.status(404).json({ error: "Item not found" });
+        }
+
+        res.status(200).json(foundItem);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+};

@@ -10,5 +10,6 @@ router.put("/item/:id", itemController.updateItem)
 router.delete("/item/:id", itemController.deleteItem)
 router.get("/item/serial/:serial", itemController.getItemBySerial)
 router.get("/item/itemid/:ItemID", itemController.getItemByItemID)
+router.get("/item/cs/:cs", itemController.getItemByCS)
 
 module.exports = router;
