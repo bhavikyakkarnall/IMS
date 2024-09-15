@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import StockOrder from '../components/StockOrder';
 import Returns from '../components/Returns';
 import Orders from '../components/Orders';
+import Items from '../components/Item';
 
 export default function AppRoute() {
     return (
@@ -18,6 +19,7 @@ export default function AppRoute() {
                 <Route path='/StockOrder' element={<StockOrder/>}/>
                 <Route path='/Returns' element={<Returns/>}/>
                 <Route path='/Orders' element={<Orders/>}/>
+                <Route path='/Items' element={<Items/>}/>
             </Routes>
         </Router>
     );

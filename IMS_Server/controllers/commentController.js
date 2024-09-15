@@ -75,39 +75,25 @@ exports.getCommentById = async (req, res) => {
 };
 
 // Get comments by itemID
-/* exports.getCommentsByItemId = async (req, res) => {
+exports.getCommentsByItemId = async (req, res) => {
     const itemId = req.params.itemId; // Get the item ID from the request parameters
+    // console.log("Item ID:", itemId); // Log the itemId to check if it matches
 
     try {
         // Find all comments with the matching itemID
         const comments = await comment.find({ itemID: itemId });
+        // console.log(comments)
 
-        if (!comments || comments.length === 0) {
+        /* if (!comments || comments.length === 0) {
+            // console.log("No comments found for itemID:", itemId);
             return res.status(404).json({ error: "No comments found for this item" });
-        }
+        } */
 
         res.status(200).json(comments);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err.message });
     }
-}; */
-
-exports.getCommentByItemID = async (req, res) => {
-    const itemId = req.params.itemID; // Get the item ID from the URL parameter
-
-    try {
-        // Find the item by its ID
-        const foundComment = await comment.find({ItemID: itemId});
-
-        if (!foundComment) {
-            return res.status(404).json({ error: "Comment not found" });
-        }
-
-        res.status(200).json(foundComment);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
 };
+
 

@@ -61,10 +61,28 @@ export default class DataService {
         }
     }
 
-    async getComments(cs) {
-        const response = await fetch(`${this.baseUrl}/comments?cs=${cs}`);
+    async getComments(ItemID) {
+        // console.log(ItemID);
+        const response = await fetch(`${this.baseUrl}/api/comments/item/${ItemID}`);
+        // console.log(response)
         return await response.json();
     }
     
+    // Add this method in DataService.js
+    async postComment(comment) {
+        try {
+            const response = await fetch(this.baseUrl + "/api/comment/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comment),
+            });
+            const newComment = await response.json();
+            return newComment;
+        } catch (error) {
+            throw new Error(`Failed to post comment: ${error.message}`);
+        }
+    }
 
 }

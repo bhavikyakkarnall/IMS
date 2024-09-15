@@ -19,6 +19,7 @@ export default function Navigation() {
                     <Nav.Link as={Link} to="/StockOrder">Order</Nav.Link>
                     <Nav.Link as={Link} to="/Returns">Returns</Nav.Link>
                     <Nav.Link as={Link} to="/Orders">Orders</Nav.Link>
+                    <Nav.Link as={Link} to="/Items">Items</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
             </Container>

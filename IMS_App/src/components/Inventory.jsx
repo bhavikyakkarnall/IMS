@@ -19,6 +19,7 @@ export default function Inventory() {
     const [pos, setPOs] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
     const [comments, setComments] = useState({});  // New state to hold comments
+    const [loadingComments, setLoadingComments] = useState({});  // To track loading state for comments
 
     useEffect(() => {
         dataService.getItems()
@@ -72,18 +73,22 @@ export default function Inventory() {
     }
 
     // Fetch comments for an item based on its CS (unique identifier)
-    const fetchComments = (cs) => {
-        dataService.getComments(cs)
+    const fetchComments = (ItemID, cs) => {
+        setLoadingComments(prevLoading => ({ ...prevLoading, [cs]: true })); // Set loading state for this item
+        dataService.getComments(ItemID)
             .then(commentsData => {
                 setComments(prevComments => ({
                     ...prevComments,
-                    [cs]: commentsData  // Store comments keyed by CS
+                    [cs]: commentsData.length > 0 ? commentsData : []  // Ensure an empty array if no comments
                 }));
+                setLoadingComments(prevLoading => ({ ...prevLoading, [cs]: false }));  // Clear loading state
             })
             .catch(error => {
                 console.log("Error fetching comments:", error);
+                setLoadingComments(prevLoading => ({ ...prevLoading, [cs]: false }));  // Clear loading state even if there's an error
             });
-    }
+    };
+
 
     // Display Items with Comments
     let itemsListJsx = items.map(item => {
@@ -94,49 +99,36 @@ export default function Inventory() {
                         <Card.Body>
                             <Card.Title><h5>CS: {item.cs}</h5></Card.Title>
                             <Card.Text>
-                                <div>
-                                    <Stack direction='horizontal' gap={3} className="justify-content-center">
-                                        <div className='p-2'><b>Serial# </b>{item.serial}</div>
-                                        <div className='p-2'><b>Location: </b>{item.location}</div>
-                                        <div className='p-2'><b>Status: </b>{item.status}</div>
-                                    </Stack>
-                                </div>
-
-                                <div>
-                                    <Stack direction='horizontal' gap={3} className="justify-content-center">
-                                        <div className='p-2'><b>Phone# </b>{item.phoneNumber}</div>
-                                        <div className='p-2'><b>SIM# </b>{item.simNumber}</div>
-                                        <div className='p-2'><b>PO# </b>{item.po}</div>
-                                    </Stack>
-                                </div>
+                                <Stack direction='horizontal' gap={3} className="justify-content-center">
+                                    <div className='p-2'><b>Serial# </b>{item.serial}</div>
+                                    <div className='p-2'><b>Location: </b>{item.location}</div>
+                                    <div className='p-2'><b>Status: </b>{item.status}</div>
+                                </Stack>
                             </Card.Text>
                         </Card.Body>
                         <Accordion defaultActiveKey="0">
-                            <Accordion.Item eventKey="0xs">
-                                <Accordion.Header onClick={() => fetchComments(item.cs)}>Comments</Accordion.Header>
+                        <Accordion.Item eventKey={item.cs}>
+                                <Accordion.Header onClick={() => fetchComments(item.ItemID, item.cs)}>Comments</Accordion.Header>
                                 <Accordion.Body>
-                                    {comments[item.cs] ? (
+                                    {loadingComments[item.cs] ? (
+                                        <p>Loading comments...</p>
+                                    ) : comments[item.cs]?.length > 0 ? (
                                         comments[item.cs].map((comment, index) => (
                                             <div key={index}>
-                                                <h6 style={{ display: 'flex', justifyContent: 'left' }}>{comment.user}</h6>
-                                                <p style={{ display: 'flex', justifyContent: 'left' }}>{comment.text}</p>
+                                                <h6>{comment.user}</h6>
+                                                <p>{comment.text}</p>
                                             </div>
                                         ))
                                     ) : (
                                         <p>No comments yet</p>
                                     )}
-                                    <Stack direction='horizontal' gap={2} className="justify-content-center">
-                                        <Form.Control className='p-2' placeholder="Comment" />
-                                        <Button className='p-2' variant="primary">Add</Button>
-                                        <Button className='p-2' variant="primary">Edit</Button>
-                                    </Stack>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
                     </Card>
                 </div>
             </>
-        )
+        );
     });
 
     return (

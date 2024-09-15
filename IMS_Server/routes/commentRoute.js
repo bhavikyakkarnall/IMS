@@ -8,7 +8,7 @@ router.get("/comments", commentController.getComments);
 router.get("/comment/:id", commentController.getCommentById);
 router.put("/comment/:id", commentController.updateComment);
 router.delete("/comment/:id", commentController.deleteComment);
-router.get("/comments/item/:itemId", commentController.getCommentByItemID)
+router.get("/comments/item/:itemId", commentController.getCommentsByItemId);
 
 
 module.exports = router;
